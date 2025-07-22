@@ -1,0 +1,41 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "introspect",
+	"main": "src/index.ts",
+	"compatibility_date": "2025-05-23",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"observability": {
+		"enabled": true
+	},
+	"containers": [
+		{
+			"class_name": "IntrospectContainer",
+			"image": "./Dockerfile",
+			"max_instances": 2,
+			"instance_type": "standard",
+			"name": "introspect-container"
+		}
+	],
+	"durable_objects": {
+		"bindings": [
+			{
+				"class_name": "IntrospectContainer",
+				"name": "INTROSPECT_CONTAINER"
+			}
+		]
+	},
+	"migrations": [
+		{
+			"new_sqlite_classes": [
+				"IntrospectContainer"
+			],
+			"tag": "v1"
+		}
+	]
+}
